@@ -8,11 +8,35 @@ import {ERC20Votes} from "openzeppelin-contracts/contracts/token/ERC20/extension
 import {Nonces} from "openzeppelin-contracts/contracts/utils/Nonces.sol";
 import {Time} from "openzeppelin-contracts/contracts/utils/types/Time.sol";
 import {Votes} from "openzeppelin-contracts/contracts/governance/utils/Votes.sol";
+import {Ownable} from "openzeppelin-contracts/contracts/access/Ownable.sol";
 
-contract BaseToken is ERC20, ERC20Permit, ERC20Votes {
-    uint256 public constant MAX_SUPPLY = 10_000_000_000e18;
+/**
+ * ASSDAQ Wormhole NTT bridge from Solana (7Tx8qTXSakpfaSFjdztPGQ9n2uyT1eUkYz7gYxxopump)
+ */
+contract ASSDAQ is ERC20, ERC20Permit, ERC20Votes, Ownable {
+    uint256 public constant MAX_SUPPLY = 1_000_000_000_000e18;
 
-    constructor(string memory _name, string memory _symbol) ERC20Permit(_name) ERC20(_name, _symbol) {}
+    error CallerNotMinter(address caller);
+    error InvalidMinterZeroAddress();
+
+    event NewMinter(address newMinter);
+
+    address public minter;
+
+    modifier onlyMinter() {
+        if (msg.sender != minter) {
+            revert CallerNotMinter(msg.sender);
+        }
+        _;
+    }
+
+    constructor() 
+            ERC20Permit("ASSDAQ (Wormhole) 7Tx8qTXSakpfaSFjdztPGQ9n2uyT1eUkYz7gYxxopump")
+            ERC20("ASSDAQ (Wormhole) 7Tx8qTXSakpfaSFjdztPGQ9n2uyT1eUkYz7gYxxopump", "ASSDAQ") 
+            Ownable(0xC166c29F6c90B124c7665C76e7F89955dBc1bd07) 
+    {
+        minter = 0xC166c29F6c90B124c7665C76e7F89955dBc1bd07;
+    }
 
     function clock() public view virtual override returns (uint48) {
         return Time.timestamp();
