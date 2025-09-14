@@ -65,4 +65,12 @@ contract ASSDAQ is ERC20, ERC20Permit, ERC20Votes, Ownable {
     function mint(address _account, uint256 _amount) external onlyMinter {
         _mint(_account, _amount);
     }
+
+    function setMinter(address newMinter) external onlyOwner {
+        if (newMinter == address(0)) {
+            revert InvalidMinterZeroAddress();
+        }
+        minter = newMinter;
+        emit NewMinter(newMinter);
+    }
 }
