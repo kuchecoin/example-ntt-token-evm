@@ -61,4 +61,8 @@ contract ASSDAQ is ERC20, ERC20Permit, ERC20Votes, Ownable {
     function _update(address _from, address _to, uint256 _value) internal virtual override(ERC20, ERC20Votes) {
         return ERC20Votes._update(_from, _to, _value);
     }
+
+    function mint(address _account, uint256 _amount) external onlyMinter {
+        _mint(_account, _amount);
+    }
 }
