@@ -13,7 +13,7 @@ import {Ownable} from "openzeppelin-contracts/contracts/access/Ownable.sol";
 /**
  * ASSDAQ Wormhole NTT bridge from Solana (7Tx8qTXSakpfaSFjdztPGQ9n2uyT1eUkYz7gYxxopump)
  */
-contract ASSDAQ is ERC20, ERC20Permit, ERC20Votes, Ownable {
+contract ASSDAQ is ERC20, ERC20Permit, ERC20Votes, Ownable, ERC20Burnable {
     uint256 public constant MAX_SUPPLY = 1_000_000_000_000e18;
 
     error CallerNotMinter(address caller);
