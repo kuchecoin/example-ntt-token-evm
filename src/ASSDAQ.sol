@@ -33,9 +33,9 @@ contract ASSDAQ is ERC20, ERC20Permit, ERC20Votes, Ownable, ERC20Burnable {
     constructor() 
             ERC20Permit("ASSDAQ (Wormhole) 7Tx8qTXSakpfaSFjdztPGQ9n2uyT1eUkYz7gYxxopump")
             ERC20("ASSDAQ (Wormhole) 7Tx8qTXSakpfaSFjdztPGQ9n2uyT1eUkYz7gYxxopump", "ASSDAQ") 
-            Ownable(0xC166c29F6c90B124c7665C76e7F89955dBc1bd07) 
+            Ownable(msg.sender) 
     {
-        minter = 0xC166c29F6c90B124c7665C76e7F89955dBc1bd07;
+        minter = msg.sender;
     }
 
     function clock() public view virtual override returns (uint48) {
